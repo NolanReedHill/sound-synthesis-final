@@ -1,4 +1,4 @@
-#N canvas 2337 -27 1920 997 12;
+#N canvas 1924 0 1920 997 12;
 #X obj 57 429 soundfiler;
 #N canvas 0 50 450 250 (subpatch) 0;
 #X array kick 132300 float 2;
@@ -63,19 +63,16 @@
 #X text 1333 235 X acceleration;
 #X obj 1687 269 inlet;
 #X text 1687 204 Y acceleration;
-#X obj 1335 612 vsl 19 162 0 1 0 0 empty empty empty 0 -9 0 12 #fcfcfc #000000 #000000 0 1;
+#X obj 1335 612 vsl 19 162 0 2 0 0 empty empty empty 0 -9 0 12 #fcfcfc #000000 #000000 0 1;
 #X text 1380 742 volume;
 #X obj 1153 804 *~;
 #X obj 1625 768 +~;
-#X obj 1857 726 vsl 19 162 0 1 0 0 empty empty empty 0 -9 0 12 #fcfcfc #000000 #000000 0 1;
+#X obj 1857 726 vsl 19 162 0 2 0 0 empty empty empty 0 -9 0 12 #fcfcfc #000000 #000000 0 1;
 #X obj 1634 837 *~;
 #X text 1778 805 volume;
 #X obj 1362 937 outlet~;
-#X obj 1457 938 outlet~;
 #X text 1363 961 Left;
-#X text 1463 965 Right;
-#X obj 1211 728 *~;
-#X obj 1190 650 *~ 0.6;
+#X obj 1159 687 +~;
 #X connect 2 0 3 0;
 #X connect 2 0 8 0;
 #X connect 2 0 10 0;
@@ -90,8 +87,7 @@
 #X connect 18 0 21 0;
 #X connect 18 1 26 0;
 #X connect 18 2 24 0;
-#X connect 19 0 46 0;
-#X connect 19 0 56 0;
+#X connect 19 0 53 0;
 #X connect 20 0 19 0;
 #X connect 20 0 23 0;
 #X connect 21 0 20 0;
@@ -102,6 +98,7 @@
 #X connect 23 0 21 1;
 #X connect 24 0 23 0;
 #X connect 24 0 27 0;
+#X connect 25 0 53 1;
 #X connect 26 0 28 0;
 #X connect 27 0 26 1;
 #X connect 28 0 25 0;
@@ -125,10 +122,8 @@
 #X connect 40 0 44 0;
 #X connect 42 0 48 0;
 #X connect 44 0 46 1;
-#X connect 44 0 55 1;
 #X connect 46 0 51 0;
 #X connect 47 0 49 0;
 #X connect 48 0 49 1;
 #X connect 49 0 51 0;
-#X connect 55 0 52 0;
-#X connect 56 0 55 0;
+#X connect 53 0 46 0;
