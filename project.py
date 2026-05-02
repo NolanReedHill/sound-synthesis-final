@@ -61,7 +61,7 @@ client = SimpleUDPClient("192.168.6.2", 7562)
 
 last_send_time = 0
 SEND_INTERVAL = 1 / 60  # 60 Hz
-
+prev_a = prev_b = 0
 while True:
     pygame.event.pump()
 
@@ -75,9 +75,12 @@ while True:
     now = time.time()
     if now - last_send_time >= SEND_INTERVAL:
         try:
-            client.send_message("/wiimote1/button/a", a)
-            client.send_message("/wiimote1/button/b", b)
-
+            if a != prev_a:
+                client.send_message("/wiimote1/button/a", a)
+            if b != prev_b:
+                client.send_message("/wiimote1/button/b", b)
+            prev_b = b
+            prev_a = a
             client.send_message("/wiimote2/accel", [x2, y2])
 
             client.send_message("/wiimote1/ir", [ir[1]["x"], ir[1]["y"]])

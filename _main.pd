@@ -77,6 +77,7 @@
 #X obj 811 265 receive WM1IRX;
 #X obj 1143 160 receive WM1IRY;
 #X obj 1150 242 expr 0 + ($f1 - 53) / (127 - 53);
+#X obj 829 123 print b;
 #X connect 1 0 40 0;
 #X connect 2 0 1 2;
 #X connect 3 0 1 1;
@@ -159,6 +160,7 @@
 #X connect 71 0 63 0;
 #X connect 72 0 2 0;
 #X connect 73 0 5 0;
+#X connect 73 0 78 0;
 #X connect 74 0 4 0;
 #X connect 75 0 74 0;
 #X connect 76 0 77 0;
