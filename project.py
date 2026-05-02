@@ -60,33 +60,25 @@ threading.Thread(target=read_port, args=(port, "wii1"), daemon=True).start()
 client = SimpleUDPClient("192.168.6.2", 7562)
 
 last_send_time = 0
-SEND_INTERVAL = 1 / 30  # 30 Hz
+SEND_INTERVAL = 1 / 60  # 60 Hz
 
 while True:
     pygame.event.pump()
 
-    x = wiimote1.get_axis(0)
-    y = wiimote1.get_axis(1)
-    z = wiimote1.get_axis(2)
 
     a = wiimote1.get_button(0)
     b = wiimote1.get_button(1)
 
     x2 = wiimote2.get_axis(0)
     y2 = wiimote2.get_axis(1)
-    z2 = wiimote2.get_axis(2)
-
-    a2 = wiimote2.get_button(0)
-    b2 = wiimote2.get_button(1)
 
     now = time.time()
     if now - last_send_time >= SEND_INTERVAL:
         try:
-            client.send_message("/wiimote1/accel", [x, y, z])
             client.send_message("/wiimote1/button/a", a)
             client.send_message("/wiimote1/button/b", b)
 
-            client.send_message("/wiimote2/accel", [x2, y2, z2])
+            client.send_message("/wiimote2/accel", [x2, y2])
 
             client.send_message("/wiimote1/ir", [ir[1]["x"], ir[1]["y"]])
             client.send_message("/wiimote2/ir", [ir[2]["x"], ir[2]["y"]])
