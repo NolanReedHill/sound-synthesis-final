@@ -11,9 +11,6 @@ vJoy[0].x = int(accel.x * 16000)
 vJoy[0].y = int(accel.y * 16000)
 vJoy[0].z = int(accel.z * 16000)
 
-vJoy[1].setButton(0, wiimote[1].buttons.button_down(WiimoteButtons.A))
-vJoy[1].setButton(1, wiimote[1].buttons.button_down(WiimoteButtons.B))
-
 # Acceleration
 accel = wiimote[1].acceleration
 
