@@ -1,4 +1,4 @@
-#N canvas -46 -14 1920 997 12;
+#N canvas 0 0 1920 997 12;
 #X obj 735 811 dac~;
 #X obj 760 600 trombone;
 #X obj 1068 555 bng 19 250 50 0 empty empty Right\ Wiimote\ A\ button 0 -10 0 12 #ffc7c6 #000000 #000000;
@@ -12,6 +12,9 @@
 #X obj 266 472 hsl 162 19 0 100 0 0 empty empty Left\ Wiimote\ X\ axis -2 -10 0 12 #c6ffc7 #000000 #000000 0 1;
 #X obj 400 510 hsl 162 19 0 2 0 0 empty empty Left\ Wiimote\ X\ acceleration -2 -10 0 12 #c6ffc7 #000000 #000000 0 1;
 #X obj 663 380 vsl 19 162 0 2 0 0 empty empty Left\ Wiimote\ Y\ acceleration 0 -9 0 12 #c6ffc7 #000000 #000000 0 1;
+#X obj 1275 165 netreceive -u -b 7562;
+#X obj 1317 247 oscparse;
+#X obj 1332 329 print data:;
 #X connect 1 0 7 0;
 #X connect 2 0 1 2;
 #X connect 3 0 1 1;
@@ -25,3 +28,5 @@
 #X connect 10 0 8 0;
 #X connect 11 0 8 1;
 #X connect 12 0 8 3;
+#X connect 13 0 14 0;
+#X connect 14 0 15 0;

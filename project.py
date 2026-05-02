@@ -1,6 +1,7 @@
 import pygame
 import mido
 import threading
+import time
 from pythonosc.udp_client import SimpleUDPClient
 
 #using midi for ir data
@@ -19,22 +20,47 @@ wiimote1.init()
 wiimote2 = pygame.joystick.Joystick(1)
 wiimote2.init()
 
+
+ir = {
+    1: {"x":0, "y": 0},
+    2: {"x":0, "y": 0},
+}
+
+cc_map = {
+    33: "x",
+    34: "y",
+}
+
 def read_port(port_name, label):
     with mido.open_input(port_name) as port:
         print(f"Opened {label}: {port_name}")
         for msg in port:
             if msg.type == "control_change":
                 wiimote = msg.channel + 1  # channel 0 = MIDI channel 1
-                print(f"Wiimote {wiimote}: CC{msg.control} = {msg.value}")
+
+                #print(f"Wiimote {wiimote}: CC{msg.control} = {msg.value}")
+
+                if wiimote not in ir:
+                    continue
+
+                name = cc_map.get(msg.control)
+                if name is None:
+                    continue
+
+                value = msg.value
+                ir[wiimote][name] = value
 
 
-port = 'loopMIDI Port 0'
+port = mido.get_input_names()[0]  # Adjust if needed
 
 
 threading.Thread(target=read_port, args=(port, "wii1"), daemon=True).start()
 
 
-client = SimpleUDPClient("192.168.7.2", 7562)
+client = SimpleUDPClient("192.168.6.2", 7562)
+
+last_send_time = 0
+SEND_INTERVAL = 1 / 30  # 30 Hz
 
 while True:
     pygame.event.pump()
@@ -53,11 +79,18 @@ while True:
     a2 = wiimote2.get_button(0)
     b2 = wiimote2.get_button(1)
 
+    now = time.time()
+    if now - last_send_time >= SEND_INTERVAL:
+        try:
+            client.send_message("/wiimote1/accel", [x, y, z])
+            client.send_message("/wiimote1/button/a", a)
+            client.send_message("/wiimote1/button/b", b)
 
-    client.send_message("/wiimote1/accel", [x, y, z])
-    client.send_message("/wiimote1/button/a", a)
-    client.send_message("/wiimote1/button/b", b)
+            client.send_message("/wiimote2/accel", [x2, y2, z2])
 
-    client.send_message("/wiimote2/accel", [x2, y2, z2])
-    client.send_message("/wiimote2/button/a", a2)
-    client.send_message("/wiimote2/button/b", b2)
+            client.send_message("/wiimote1/ir", [ir[1]["x"], ir[1]["y"]])
+            client.send_message("/wiimote2/ir", [ir[2]["x"], ir[2]["y"]])
+        except BlockingIOError:
+            pass  # Ignore send errors if the buffer is full
+
+        last_send_time = now

@@ -1,12 +1,28 @@
-﻿// IR pointer (average of two dots)
-if starting then
+﻿if starting then
    midi.OutDevName = "loopMIDI Port 0"
 endif
 
-midi.Channel1.Control1 = ((Wiimote1.Dot1X + Wiimote1.Dot2X) / 2) * 32767
-midi.Channel1.Control2 = ((Wiimote1.Dot1Y + Wiimote1.Dot2Y) / 2) * 32767
 
-midi.Channel2.Control1 = ((Wiimote2.Dot1X + Wiimote2.Dot2X) / 2) * 32767
-midi.Channel2.Control2 = ((Wiimote2.Dot1Y + Wiimote2.Dot2Y) / 2) * 32767
-debug =  Wiimote1.Dot1X
+if floor(((Wiimote1.dot1x + Wiimote1.dot2x) / 2) /10) < 1 then
+   midi.Channel1.Control1 = 1
+elseif floor(((Wiimote1.dot1x + Wiimote1.dot2x) / 2) /10) > 101 then
+       midi.Channel1.Control1 = 101
+else
+    midi.Channel1.Control1 = floor(((Wiimote1.dot1x + Wiimote1.dot2x) / 2) /10)
+endif
+
+if floor(((Wiimote1.dot1y + Wiimote1.dot2y) / 2) /10) < 1 then
+   midi.Channel1.Control2 = 1
+elseif floor(((Wiimote1.dot1y + Wiimote1.dot2y) / 2) /10) > 101 then
+       midi.Channel1.Control2 = 101
+else
+    midi.Channel1.Control2 = floor(((Wiimote1.dot1y + Wiimote1.dot2y) / 2) /10)
+endif
+
+midi.Channel2.Control1 = floor(((Wiimote2.dot1x + Wiimote2.dot2x) / 2) /10)
+
+midi.Channel2.Control2 = floor(((Wiimote2.dot1y + Wiimote2.dot2y) / 2) /10)
+
+debug =  floor((Wiimote2.dot1x + Wiimote2.dot2x) / 2) /10
+
 
