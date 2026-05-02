@@ -1,6 +1,12 @@
 ﻿// IR pointer (average of two dots)
-if Wiimote1.Dot1Visible and Wiimote1.Dot2Visible then
-    midi.Control1 = ((Wiimote1.Dot1X + Wiimote1.Dot2X) / 2) * 32767
-    midi.Control2 = ((Wiimote1.Dot1Y + Wiimote1.Dot2Y) / 2) * 32767
+if starting then
+   midi.OutDevName = "loopMIDI Port 0"
 endif
+
+midi.Channel1.Control1 = ((Wiimote1.Dot1X + Wiimote1.Dot2X) / 2) * 32767
+midi.Channel1.Control2 = ((Wiimote1.Dot1Y + Wiimote1.Dot2Y) / 2) * 32767
+
+midi.Channel2.Control1 = ((Wiimote2.Dot1X + Wiimote2.Dot2X) / 2) * 32767
+midi.Channel2.Control2 = ((Wiimote2.Dot1Y + Wiimote2.Dot2Y) / 2) * 32767
+debug =  Wiimote1.Dot1X
 
